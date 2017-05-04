@@ -20,24 +20,21 @@
 
 (def all-routes
   (routes
-    #_api
-    #_(GET "/.well-known/acme-challenge/:acme-token" [acme-token]
-         (let [resp (sabayon-response (sabayon-config) acme-token)]
-           (if (= (:status resp) 200)
-             (-> resp
-                 (response/content-type "text/plain; charset=utf-8"))
-             (-> (not-found (json/write-str {:error 404}))
-                 (response/content-type "application/json; charset=utf-8")))))
+    (GET "/" [& params]
+         (-> (page/html5 [:body {:style "margin: 20px"}
+                        [:div
+                         [:h1 "Regex Compressor"]
+                         [:p "Enter a list of expressions you want compressed into a regular expression that matches them all"]
+                         [:form {:style "width: 100%"}
+                          [:textarea {:name "words" :size 100 :cols 80 :rows 30 :style "vertical-align: middle" :value ()}]
+                          [:input {:type "submit" :value "Compress" :style "vertical-align: middle"}]
+                          [:textarea {:name "output" :size 100 :cols 80 :rows 30 :style "vertical-align: middle"}]]]])
+             response/response
+             (response/header "Content-Type" "text/html")))
 
-    #_(GET "/vote-buttons" [& params]
-         (urban-api.vote-buttons/response params))
+    (GET "/haro" [& params] "Haro werld")
 
-    (GET "/haro" [& params]
-         "Haro werld")
-
-    (ANY "/*" []
-         (-> (not-found (json/write-str {:error 404}))
-             (response/content-type "application/json; charset=utf-8")))))
+    (ANY "/*" [] (response/redirect "/"))))
 
 (def app (-> all-routes
              (cond-> (env :reload) wrap-reload
@@ -50,9 +47,10 @@
     {}))
 
 (defn run []
-  (http/start-server #'app {:port     (Integer/parseInt (env :port))
-                            :executor (create-executor)})
-  (println "server running on port " (Integer/parseInt (env :port))))
+  (let [port (Integer/parseInt (env :port))]
+    (http/start-server #'app {:port port
+                              :executor (create-executor)})
+    (println "server running on port" port)))
 
 (defn -main [& args]
   (run))

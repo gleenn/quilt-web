@@ -27,15 +27,13 @@
                        :env          {:host            "localhost"
                                       :reload          "true"
                                       :port            "3000"
-                                      :database-url    "//postgres@localhost:5432/quilt-web-dev"
-                                      :bugsnag-api-key ""}
+                                      :database-url    "//postgres@localhost:5432/quilt-web-dev"}
                        :plugins      [[com.jakemccrary/lein-test-refresh "0.19.0"]
                                       [venantius/ultra "0.5.1"]]
                        :dependencies [[ring/ring-mock "0.3.0"]
                                       [cljfmt/cljfmt "0.5.6"]
                                       [org.clojure/core.async "0.2.395"]
-                                      [org.clojure/tools.namespace "0.2.3"]
-                                      ]}
+                                      [org.clojure/tools.namespace "0.2.3"]]}
              :test    {:dependencies [[org.clojure/core.async "0.2.395"]]
                        :env          {:database-url "//postgres@localhost:5432/"}}
              :uberjar {:aot :all}})
