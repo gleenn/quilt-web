@@ -27,18 +27,22 @@
   (routes
     (GET "/" [& params]
          (let [words (params "words")
-               regex (some->> (remove nil? (str/split (or words "") #"[\r\n]"))
-                          com.gleenn.regex_compressor.RegexCompressor/pattern
-                          .toString)
-               _ (prn regex)]
+               regex (some->> (remove nil? (str/split (or words "") #"[\r\n]")) com.gleenn.regex_compressor.RegexCompressor/pattern)
+               regex-string (str regex)
+               test-input (params "test-input")
+               test-output (str/join "\n" (re-seq regex (or test-input "")))]
            (-> (page/html5 [:body {:style "margin: 20px"}
                             [:div
                              [:h1 "Regex Compressor"]
                              [:p "Enter a list of expressions you want compressed into a regular expression that matches them all"]
                              [:form {:style "width: 100%"}
-                              [:textarea {:name "words" :size 100 :cols 80 :rows 30 :style "vertical-align: middle"} (escape-html words)]
+                              [:textarea {:name "words" :size 100 :cols 30 :rows 30 :style "vertical-align: middle"} (escape-html words)]
                               [:input {:type "submit" :value "Compress" :style "vertical-align: middle"}]
-                              [:textarea {:name "output" :size 100 :cols 80 :rows 30 :style "vertical-align: middle"} (escape-html regex)]]]])
+                              [:textarea {:name "output" :size 100 :cols 30 :rows 30 :style "vertical-align: middle"} (escape-html regex-string)]
+                              [:span "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"]
+                              [:textarea {:name "test-input" :size 100 :cols 30 :rows 30 :style "vertical-align: middle" :placeholder (str "i.e. \n\n" words)} (escape-html test-input)]
+                              [:input {:type "submit" :value "Test" :style "vertical-align: middle"}]
+                              [:textarea {:name "test-output" :size 100 :cols 30 :rows 30 :style "vertical-align: middle"} (escape-html test-output)]]]])
                response/response
                (response/header "Content-Type" "text/html"))))
 
