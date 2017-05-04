@@ -4,6 +4,7 @@
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :main quilt-web.core
+  :uberjar-name "quilt-web.jar"
   :dependencies [[aleph "0.4.1-beta4"]
                  [clj-time "0.11.0"]
                  [com.layerware/hugsql "0.4.6"]
