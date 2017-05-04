@@ -9,6 +9,7 @@
   :dependencies [[aleph "0.4.1-beta4"]
                  [clj-time "0.11.0"]
                  [com.layerware/hugsql "0.4.6"]
+                 [com.gleenn/regex_compressor "1.0-SNAPSHOT"]
                  [enlive "1.1.6"]
                  [environ "1.0.2"]
                  [hiccup "1.0.5"]
@@ -19,6 +20,10 @@
                  [org.postgresql/postgresql "9.4-1201-jdbc41"]
                  [ring-refresh "0.1.2"]
                  [ring/ring-devel "1.5.0"]]
+
+  :repositories {"maven"            {:url "http://repo1.maven.org/maven2/"}
+                 ;"jboss"            {:url "https://repository.jboss.org/nexus/content/groups/public"}
+                 "regex_compressor" {:url "https://raw.github.com/gleenn/regex_compressor/mvn-repo"}}
 
   :plugins [[lein-cljfmt "0.5.6"]
             [lein-environ "1.0.2"]]
