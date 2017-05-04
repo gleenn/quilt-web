@@ -27,9 +27,10 @@
   (routes
     (GET "/" [& params]
          (let [words (params "words")
-               regex (->> (str/split words #"\n")
+               regex (some->> (remove nil? (str/split (or words "") #"[\r\n]"))
                           com.gleenn.regex_compressor.RegexCompressor/pattern
-                          str)]
+                          .toString)
+               _ (prn regex)]
            (-> (page/html5 [:body {:style "margin: 20px"}
                             [:div
                              [:h1 "Regex Compressor"]
